@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="res/qunit/qunit.css" />
+    <script type="text/javascript" src="res/jquery.js"></script>
+    <script type="text/javascript" src="res/qunit/qunit.js"></script>
+
+    <!-- What we are testing -->
+    <script type="text/javascript" src="res/ValidationHelper.js"></script>
+
+    <!-- Tests to run -->
+    <script type="text/javascript" src="res/ValidationHelperTest.js"></script>
+
+
+  </head>
+  <body>
+    <h1 id="qunit-header">Test Validation Helper</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture">test markup, will be hidden</div>
+
+    <div style="display:none">
+      <div id="dummy" style="display:none"></div>
+    </div>
+
+    <script>
+      $(function(){
+        runValidationHelperTests();
+      });
+    </script>
+  </body>
+
+</html>
+
+
+
+
+
+

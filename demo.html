@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script type="text/javascript" src="../res/jquery.js"></script>
+    <script type="text/javascript" src="res/ValidationHelper.js"></script>
+    <style>
+      .error{
+       display: block;
+       color: red;
+      }
+
+      .invalidInput{
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    Name: <input type="text" id="txtName"/> <br/><br/>
+    Age: <input type="text" id="age"/> <br/><br/>
+
+    <button id="test">Test Validation</button>
+  </body>
+
+  <script>
+    function validate(){
+      var isValid = true;
+      var dummy = new ValidationHelper("","");
+      dummy.resetAll();
+
+      $("#txtName").each(function(){
+        var obj = new ValidationHelper(this, $(this).val());
+        isValid = obj.isRequired()
+                     .isDigit()
+                     .inRange(1,2)
+                     .inRange(3,4)
+                     .end();
+      });
+
+      if(isValid){
+        window.alert("No errors");
+      }
+      else{
+        window.alert("Form contains errors");
+      }
+    }
+
+    $("#test").click(function(){validate()});
+  </script>
+</html>
