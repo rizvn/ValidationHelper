@@ -119,6 +119,11 @@ function runValidationHelperTests(){
     equal(obj.preCheck(), true, "Should return true");
   });
 
-
+  test("Should call precheck method", function(){
+    var obj = new ValidationHelper("","", {validateEmpty: true});
+    this.spy(obj, "preCheck");
+    obj.isRequired().isEmpty();
+    ok(obj.preCheck.calledOnce);
+  });
 
 }
