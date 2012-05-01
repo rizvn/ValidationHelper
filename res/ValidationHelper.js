@@ -130,7 +130,6 @@ ValidationHelper.prototype.isGreaterThan = function(aVal) {
 
 ValidationHelper.prototype.isLessThan = function(aVal) {
   if(this.preCheck()){
-    if(!this.mIsValid && !this.mConf.continueOnInvalid) return this;
     var value = parseFloat(this.mValue);
     var aVal = parseFloat(aVal);
     if ( value > aVal) {
@@ -144,7 +143,6 @@ ValidationHelper.prototype.isLessThan = function(aVal) {
 
 ValidationHelper.prototype.preCheck = function(){
   var _continue = true;
-  console.log("In Precheck")
   // test whether to continue if state is invalid
   if(!this.mIsValid){
     _continue = this.mConf.continueOnInvalid;
@@ -156,6 +154,37 @@ ValidationHelper.prototype.preCheck = function(){
   };
 
   return _continue;
+}
+
+
+ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
+  if(this.preCheck()){
+    //add value to data object
+    aData.value =  this.mValue;
+    var thisClass = this;
+
+    $.ajax({
+      "type" : "GET",
+      "cache": false ,
+      "url"  : aUrl,
+      "async": "false",
+      "data" : aData,
+      "timeout" : "10",
+    })
+    .done(function(aResponse) {
+      var result = $.parseJSON(aResponse);
+      if(result.isValid == "false"){
+        thisClass.mIsValid = false;
+        thisClass.onFail((typeof(aMsg)=="undefined")? "Invalid input": aMsg);
+      }
+    })
+    .fail(function(aErr) {
+      thisClass.mIsValid = false;
+      thisClass.onFail("Remote Validation failed");
+      console.log("Error:"+ aError);
+    })
+  }
+  return this;
 }
 
 

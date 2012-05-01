@@ -122,8 +122,14 @@ function runValidationHelperTests(){
   test("Should call precheck method", function(){
     var obj = new ValidationHelper("","", {validateEmpty: true});
     this.spy(obj, "preCheck");
-    obj.isRequired().isEmpty();
+    obj.isRequired();
     ok(obj.preCheck.calledOnce);
+  });
+
+  test("test isValidRemote method precheck method", function(){
+    var obj = new ValidationHelper("","");
+    obj.isValidRemote("test/html", {some: "data"}).end();
+    equal(false, obj.isValid(), "Should be valid");
   });
 
 }
