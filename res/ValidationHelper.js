@@ -162,28 +162,39 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
     //add value to data object
     aData.value =  this.mValue;
     var thisClass = this;
+    var result = null;
 
     $.ajax({
       "type" : "GET",
       "cache": false ,
       "url"  : aUrl,
-      "async": "false",
+       async: false,
       "data" : aData,
+      "dataType": "json",
       "timeout" : "10",
     })
     .done(function(aResponse) {
-      var result = $.parseJSON(aResponse);
-      if(result.isValid == "false"){
-        thisClass.mIsValid = false;
-        thisClass.onFail((typeof(aMsg)=="undefined")? "Invalid input": aMsg);
-      }
+      //when request is complete
+      result = aResponse;
     })
-    .fail(function(aErr) {
-      thisClass.mIsValid = false;
-      thisClass.onFail("Remote Validation failed");
-      console.log("Error:"+ aError);
-    })
+    .fail(function(aError){
+      //if request fails
+      console.log(aError)
+    });
+
+    if(result == null){
+      //if request failed
+      this.mIsValid = false;
+      this.onFail("Remote validation failed");
+    }
+    else if(result.isValid=="false"){
+      //if server responded rejected field
+      this.mIsValid = false;
+      this.onFail((typeof(aMsg)=="undefined")? "Invalid input" : aMsg);
+    }
+
   }
+
   return this;
 }
 
@@ -194,7 +205,6 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
 // isLongerThan
 // isShorterThan
 // isLength
-// isRemoteValid
 
 
 

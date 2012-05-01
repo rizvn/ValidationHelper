@@ -127,9 +127,13 @@ function runValidationHelperTests(){
   });
 
   test("test isValidRemote method precheck method", function(){
-    var obj = new ValidationHelper("","");
-    obj.isValidRemote("test/html", {some: "data"}).end();
-    equal(false, obj.isValid(), "Should be valid");
+    var obj = new ValidationHelper($("dummy"),"123");
+    obj.isValidRemote("testData/validResponse.html", {some: "data"}).end();
+    equal(obj.isValid(), true, "Should is valid");
+
+    var obj = new ValidationHelper($("dummy"),"123");
+    obj.isValidRemote("testData/inValidResponse.html", {some: "data"}).end();
+    equal(obj.isValid(), false, "Should be invalid");
   });
 
 }
