@@ -15,7 +15,8 @@ function ValidationHelper(aEl, aValue, aConf) {
   this.mEl = aEl;
   this.mConf = {
     continueOnInvalid : true,
-    validateEmpty: false
+    validateEmpty: false,
+    target: null,
   };
 
   if(typeof(aConf) == "object"){
@@ -51,7 +52,13 @@ ValidationHelper.prototype.resetAll = function() {
 
 ValidationHelper.prototype.onFail = function(aMessage) {
   $(this.mEl).addClass("invalidInput");
-  $(this.mEl).after("<label class='error'>" + aMessage + "</label>");
+
+  if(this.mConf.target == null){
+    $(this.mEl).after("<label class='error'>" + aMessage + "</label>");
+  }else{
+    $(this.mConf.target).append("<label class='error'>" + aMessage + "</label>");
+  }
+
 };
 
 /*----------- Start of validation methods ----------------------*/

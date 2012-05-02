@@ -14,8 +14,9 @@
     </style>
   </head>
   <body>
-    Name: <input type="text" id="txtName"/> <br/><br/>
-    Age: <input type="text" id="age"/> <br/><br/>
+    <div id="errorContainer"></div>
+    Field: <input type="text" id="txtField"/> <br/><br/>
+
 
     <button id="test">Test Validation</button>
   </body>
@@ -26,13 +27,9 @@
       var dummy = new ValidationHelper("","");
       dummy.resetAll();
 
-      $("#txtName").each(function(){
-        var obj = new ValidationHelper(this, $(this).val());
-        isValid = obj.isRequired()
-                     .isDigit()
-                     .inRange(1,2)
-                     .inRange(3,4)
-                     .end();
+      $("#txtField").each(function(){
+        var obj = new ValidationHelper(this, $(this).val(), {target: $("#errorContainer")});
+        isValid = obj.isRequired().end();
       });
 
       if(isValid){

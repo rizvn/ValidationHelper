@@ -136,4 +136,21 @@ function runValidationHelperTests(){
     equal(obj.isValid(), false, "Should be invalid");
   });
 
+  test("test error label placed in specified container", function(){
+    //setup
+    $("body").append("<div id='errContainer'><div>");
+
+    var obj = new ValidationHelper($("#dummy"), "", {target: $("#errContainer")});
+    obj.isRequired();
+    if($("#errContainer .error").length >0){
+      ok(true, "Error label placed in target element");
+    }
+    else{
+      ok(false, "element does not contain error label")
+    }
+
+    //teardown
+    $("#errContainer").remove();
+  })
+
 }
