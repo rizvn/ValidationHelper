@@ -2,6 +2,10 @@ Using ValidationHelper
 ---------------
 This is a small utilty that I wrought because I couldn't find a minimal js only validation utility. 
 
+**Download from: res/ValidationHelper.js**
+
+**Tested with: jquery 1.7.1**
+
 ## Quick Start:
 
     var helper = new ValidationHelper($("#myElement"), $("#myElement").val());
