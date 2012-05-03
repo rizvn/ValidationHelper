@@ -213,8 +213,3 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
 // isShorterThan
 // isLength
 
-
-
-
-
-
