@@ -1,10 +1,10 @@
 Using ValidationHelper
 ---------------
-This is a small utilty that I wrought because I couldn't find a minimal js only validation utility. 
+A small js utility to speed up web form validation. 
 
 **Download from: res/ValidationHelper.js**
 
-**Tested with: jquery 1.7.1**
+**Tested with: jquery 1.7.1, should work with 1.5+**
 
 ## Quick Start:
 
