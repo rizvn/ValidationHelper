@@ -16,7 +16,7 @@ function ValidationHelper(aEl, aValue, aConf) {
   this.mConf = {
     continueOnInvalid : true,
     validateEmpty: false,
-    target: null,
+    target: null
   };
 
   if(typeof(aConf) == "object"){
@@ -179,14 +179,12 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
       "data" : aData,
       "dataType": "json",
       "timeout" : "10",
-    })
-    .done(function(aResponse) {
-      //when request is complete
-      result = aResponse;
-    })
-    .fail(function(aError){
-      //if request fails
-      console.log(aError)
+      "success": function(aResponse){
+        result = aResponse;
+      },
+      "error": function(){
+        console.log(aError);
+      }
     });
 
     if(result == null){
