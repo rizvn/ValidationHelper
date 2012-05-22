@@ -1,6 +1,6 @@
 /**
  * Validation Helper
- * Version 0.1
+ * Version 0.2
  *
  * author Riz
  */
@@ -9,8 +9,8 @@
  * @param aEl Element after which error will be placed
  * @param aValue Value to validate
  */
-function ValidationHelper(aEl, aValue, aConf) {
-  this.mValue = aValue;
+function ValidationHelper(aEl) {
+  this.mValue = aEl.val();
   this.mIsValid = true;
   this.mEl = aEl;
   this.mConf = {
@@ -18,10 +18,6 @@ function ValidationHelper(aEl, aValue, aConf) {
     validateEmpty: false,
     target: null
   };
-
-  if(typeof(aConf) == "object"){
-    $.extend(this.mConf, aConf);
-  }
 };
 
 /**
@@ -29,6 +25,26 @@ function ValidationHelper(aEl, aValue, aConf) {
  */
 ValidationHelper.prototype.getValue = function() {
   return this.mValue;
+};
+
+ValidationHelper.prototype.setValue = function(aVal) {
+  this.mValue = aVal;
+  return this;
+};
+
+ValidationHelper.prototype.setTarget = function(aTarget) {
+  this.mConf.target = aTarget;
+  return this;
+};
+
+ValidationHelper.prototype.setContinueOnInvalid = function(aContinue) {
+  this.mConf.continueOnInvalid = aContinue;
+  return this;
+};
+
+ValidationHelper.prototype.setValidateEmpty = function(aValidatEmpty) {
+  this.mConf.validateEmpty = aValidatEmpty;
+  return this;
 };
 
 ValidationHelper.prototype.isValid = function() {
@@ -51,10 +67,10 @@ ValidationHelper.prototype.resetAll = function() {
 
 
 ValidationHelper.prototype.onFail = function(aMessage) {
-  $(this.mEl).addClass("invalidInput");
+  this.mEl.addClass("invalidInput");
 
   if(this.mConf.target == null){
-    $(this.mEl).after("<label class='error'>" + aMessage + "</label>");
+    this.mEl.after("<label class='error'>" + aMessage + "</label>");
   }else{
     $(this.mConf.target).append("<label class='error'>" + aMessage + "</label>");
   }
@@ -147,6 +163,16 @@ ValidationHelper.prototype.isLessThan = function(aVal) {
   return this;
 };
 
+ValidationHelper.prototype.isNot = function(aVal) {
+  if(this.preCheck()){
+    if ( this.mValue === aVal) {
+      this.mIsValid = false;
+      this.onFail("Value is the same " + aVal);
+    }
+  }
+  return this;
+};
+
 
 ValidationHelper.prototype.preCheck = function(){
   var _continue = true;
@@ -203,11 +229,43 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
   return this;
 }
 
+ValidationHelper.prototype.isLongerThan = function(aVal) {
+  if(this.preCheck()){
+    if ( this.mValue.length < aVal) {
+      this.mIsValid = false;
+      this.onFail("Must be  " + aVal + " characters");
+    }
+  }
+  return this;
+};
+
+ValidationHelper.prototype.isShorterThan = function(aVal) {
+  if(this.preCheck()){
+    if ( this.mValue.length > aVal) {
+      this.mIsValid = false;
+      this.onFail("Must be  less than " + aVal + " characters");
+    }
+  }
+  return this;
+};
 
 
-//todo: Methods to implement
-// isEqual
-// isLongerThan
-// isShorterThan
-// isLength
+ValidationHelper.prototype.isLength = function(aVal) {
+  if(this.preCheck()){
+    if ( this.mValue.length != aVal) {
+      this.mIsValid = false;
+      this.onFail("Length is not" + aVal );
+    }
+  }
+  return this;
+};
 
+ValidationHelper.prototype.isEqual = function(aVal) {
+  if(this.preCheck()){
+    if ( this.mValue === aVal) {
+      this.mIsValid = false;
+      this.onFail("Is not " + aVal );
+    }
+  }
+  return this;
+};
