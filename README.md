@@ -27,6 +27,11 @@ By default the following is placed after the element if it fails validation
 * **inRange(minVal, maxVall)** - check value is in range
 * **isGreaterThan(val)** - check input value greater than val
 * **isLessThan(val)** - check input value is less than val
+* **isLongerThan(val)** - check length of input is longer than val
+* **isShorterThan(val)** - check length of input is shorter than val
+* **isLength(val)** - check length of input is same as val
+* **isEqual(val)** - check input matches val (string comparison)
+* **isNot(val)** - check input does not match val (string comparison)
 * **isValidRemote(url, postData, errorMessage)** - send value to server with
   postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request. if isValid is false then the error message will be displayed
   
