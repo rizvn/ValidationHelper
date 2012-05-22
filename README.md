@@ -22,7 +22,7 @@ By default the following is placed after the element if it fails validation
 ## Validation Methods
 * **isRequired()** - check is not empty
 * **isDigit()** - check is an integer
-* **isDate()** - check is date in format dd/mm/yyy (todo: add configurable formats)
+* **isDate()** - check is date in format dd/mm/yyyy
 * **isDecimal()** - check is a decimal
 * **inRange(minVal, maxVall)** - check value is in range
 * **isGreaterThan(val)** - check input value greater than val
