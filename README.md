@@ -71,9 +71,7 @@ Validation methods can be chained
 
 
 ## Configuration
-There are optional configuration that can be passed as the 3rd positional argument when creating a ValidationHelper instance;
-
-example:
+There are optional methods that can be used to change validation behavior 
 
     var helper = new ValidationHelper($('#el'))
     
@@ -93,3 +91,10 @@ example:
 ## Override default error messages
 When field validation fails the onFail() method is called, the first argument to the method is the error string. You can override this method to provide your own 
 mechanism for handling errors. 
+
+     var helper = new ValidationHelper($('#el'))
+   
+     //overide existing on fail implementation 
+     helper.onFail = function(message){ alert(message)}
+     
+     helper.isRequired() //will call above implementaion on fail
