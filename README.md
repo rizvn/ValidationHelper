@@ -8,7 +8,7 @@ A small js utility to speed up web form validation.
 
 ## Quick Start:
 
-    var helper = new ValidationHelper($("#myElement"), $("#myElement").val());
+    var helper = new ValidationHelper($("#myElement"));
     helper.isRequired();            //check whether element is empty 
     var result = helper.isValid();  //get result of validation
 
@@ -39,7 +39,7 @@ By default the following is placed after the element if it fails validation
 ## Chaining
 Validation methods can be chained 
 
-    var helper = new ValidationHelper($("#myElement"), $("#myElement").val());
+    var helper = new ValidationHelper($("#myElement"));
 
     helper
       .isRequired()  //check is not empty
@@ -58,7 +58,7 @@ Validation methods can be chained
 
 
     //-- or even fewer steps
-    var result = new ValidationHelper($("#myElement"), $("#myElement").val())
+    var result = new ValidationHelper($("#myElement"))
                    .isRequired()
                    .isDecimal()
                    .inRange(2,4)
@@ -70,11 +70,20 @@ There are optional configuration that can be passed as the 3rd positional argume
 
 example:
 
-    var helper = new ValidationHelper($('#el'), $('#el').val(), {
-        target: $('#errContainer'), //element in error label should be placed
-        validateEmpty: true, //whether to continue validation even if input is empty
-        continueOnInvalid : true, //whether to continue validation chain if one rule fails
-    });
+    var helper = new ValidationHelper($('#el'))
+    
+    //sets container in which to write error message
+    helper.setTarget($('#errContainer'));
+    
+    
+    //set whether to continue next validation if previous validation in 
+    //chain fails
+    helper.setContinueOnInvalid(true);
+    
+    
+    //whether to validate on empty field
+    helper.setValidateEmpty()
+    
 
 ## Override default error messages
 When field validation fails the onFail() method is called, the first argument to the method is the error string. You can override this method to provide your own 
