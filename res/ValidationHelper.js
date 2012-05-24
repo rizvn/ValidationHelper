@@ -1,15 +1,22 @@
 /**
  * Validation Helper
- * Version 0.2
+ * Version 0.3
  *
  * author Riz
  */
 
 /*Constructor
- * @param aEl Element after which error will be placed
- * @param aValue Value to validate
+ * @param aEl element to validate
  */
 function ValidationHelper(aEl) {
+  return this.init(aEl);
+};
+
+/* constructor delegate to allow reinitialise of the same object with a new
+ *  element
+ *  @param aEl element to validate
+ */
+ValidationHelper.prototype.init = function(aEl) {
   this.mValue = aEl.val();
   this.mIsValid = true;
   this.mEl = aEl;
@@ -18,6 +25,8 @@ function ValidationHelper(aEl) {
     validateEmpty: false,
     target: null
   };
+
+  return this;
 };
 
 /**
@@ -208,7 +217,7 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
       "success": function(aResponse){
         result = aResponse;
       },
-      "error": function(){
+      "error": function(aResponse){
         console.log(aError);
       }
     });
@@ -218,7 +227,7 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
       this.mIsValid = false;
       this.onFail("Remote validation failed");
     }
-    else if(result.isValid=="false"){
+    else if(!result.isValid){
       //if server responded rejected field
       this.mIsValid = false;
       this.onFail((typeof(aMsg)=="undefined")? "Invalid input" : aMsg);
