@@ -285,11 +285,11 @@ ValidationHelper.prototype.isLength = function(aVal) {
   return this;
 };
 
-ValidationHelper.prototype.isEqual = function(aVal) {
+ValidationHelper.prototype.isEqual = function(aVal, aMsg) {
   if(this.preCheck()){
-    if ( this.mValue === aVal) {
+    if ( this.mValue != aVal) {
       this.mIsValid = false;
-      this.onFail("Is not " + aVal );
+      this.onFail(aMsg || "Does not match");
     }
   }
   return this;
