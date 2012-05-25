@@ -23,7 +23,9 @@ ValidationHelper.prototype.init = function(aEl) {
   this.mConf = {
     continueOnInvalid : true,
     validateEmpty: false,
-    target: null
+    target: null,
+    errorCls : "error",
+    invalidInputCls: "invalidInput",
   };
 
   return this;
@@ -69,22 +71,36 @@ ValidationHelper.prototype.getEl = function() {
 };
 
 ValidationHelper.prototype.resetAll = function() {
-  $('.error').remove();
-  $(".invalidInput").removeClass("invalidInput")
+  $("."+ this.mConf.errorCls).remove();
+  $("."+ this.mConf.invalidInputCls).removeClass("invalidInput")
+  return this;
+};
+
+ValidationHelper.prototype.setErrorClass = function(aClassName) {
+  this.mConf.errorCls = aClassName;
+  return this;
+};
+
+ValidationHelper.prototype.setInvalidInputClass = function(aClassName) {
+  this.mConf.invalidInputCls = aClassName;
   return this;
 };
 
 
 ValidationHelper.prototype.onFail = function(aMessage) {
-  this.mEl.addClass("invalidInput");
+  this.mEl.addClass(this.mConf.invalidInputCls);
 
   if(this.mConf.target == null){
-    this.mEl.after("<label class='error'>" + aMessage + "</label>");
+    this.mEl.after("<label class='"+ this.mConf.errorCls +"'>" + aMessage + "</label>");
   }else{
-    $(this.mConf.target).append("<label class='error'>" + aMessage + "</label>");
+    $(this.mConf.target).append("<label class='"+ this.mConf.errorCls +"'>" + aMessage + "</label>");
   }
-
 };
+
+//Logically And result with another boolean to track validation
+ValidationHelper.prototype.and = function(aBoolean){
+  return aBoolean && this.mIsValid;
+},
 
 /*----------- Start of validation methods ----------------------*/
 ValidationHelper.prototype.isRequired = function() {
