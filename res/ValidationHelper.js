@@ -294,3 +294,13 @@ ValidationHelper.prototype.isEqual = function(aVal, aMsg) {
   }
   return this;
 };
+
+ValidationHelper.prototype.isRegExpMatch = function(aRegExp, aMsg){
+  if(this.preCheck()){
+    if (!this.mValue.match(aRegExp)>0) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Does not match");
+    }
+  }
+  return this;
+};
