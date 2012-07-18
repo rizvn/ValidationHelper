@@ -233,7 +233,7 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
       "success": function(aResponse){
         result = aResponse;
       },
-      "error": function(aResponse){
+      "error": function(aError){
         console.log(aError);
       }
     });
@@ -243,10 +243,22 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
       this.mIsValid = false;
       this.onFail("Remote validation failed");
     }
-    else if(!result.isValid){
-      //if server responded rejected field
+    else if(result.isValid==false){ //is server responds with false
       this.mIsValid = false;
-      this.onFail((typeof(aMsg)=="undefined")? "Invalid input" : aMsg);
+
+      if((typeof(aMsg)=="undefined")){//if no msg arg specified
+
+        if(result.hasOwnProperty('error')){ //if server responds with error
+          this.onFail(result.error);
+        }
+        else{
+          this.onFail("Invalid input");
+        }
+      }
+      else{
+        this.onFail(aMsg);
+      }
+
     }
 
   }
