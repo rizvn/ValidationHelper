@@ -33,13 +33,14 @@ By default the following is placed after the element if it fails validation
 * **isEqual(val)** - check input matches val (string comparison)
 * **isNot(val)** - check input does not match val (string comparison)
 * **isValidRemote(url, postData, errorMessage)** - send value to server with
-  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request. if isValid is false then the error message will be displayed
+  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request. if isValid is false then the error message will be displayed, is error is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an error key then the default error message will be displayed
   
   
 ## Other Methods
 * **resetAll()** - remove elements with .error on page, remove .invalid from invalid fields
 * **isValid()** - get value of valid (use after performing validation)
-* **isEnd()** - does the same as isValid()
+* **isEnd()** - does the same as isValid(
+* **and(result) - performs a logical and with result and state of the object and returns the result 
 
 ## Chaining
 Validation methods can be chained 
@@ -67,7 +68,8 @@ Validation methods can be chained
                    .isRequired()
                    .isDecimal()
                    .inRange(2,4)
-                   .end(); //the end method does the same as is valid, returns      
+                   .and(result); //the and method performs a logical and with result and current valid state and 
+                                 //returns the result 
 
 
 ## Configuration
