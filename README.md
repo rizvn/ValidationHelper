@@ -41,7 +41,7 @@ By default the following is placed after the element if it fails validation
 * **isValid()** - get value of valid (use after performing validation)
 * **isEnd()** - does the same as isValid()
 
-## Chaining
+## Chaining example
 Validation methods can be chained 
 
     var helper = new ValidationHelper($("#myElement"));
@@ -69,7 +69,7 @@ Validation methods can be chained
                    .inRange(2,4)
                    .and(result); //the and method performs a logical and with result and validation state of field and 
                                  //returns the result 
-## Remote Validation Example
+## Remote validation example
 
     isValid = new ValidationHelper($('#field1'))
                    .isValidRemote(
@@ -82,7 +82,7 @@ Validation methods can be chained
                    )
                    .and(isValid);
 
-##Tracking validation state
+##Tracking validation state example
 A common design pattern for performing validation is to have a validation method which returns true if validation was sucessfull and false if validation is unsucessfull. The **and()** can be usefull for this type of validation.
 
     function validate(){
