@@ -33,10 +33,8 @@ By default the following is placed after the element if it fails validation
 * **isLength(val)** - check length of input is same as val
 * **isEqual(val)** - check input matches val (string comparison)
 * **isNot(val)** - check input does not match val (string comparison)
-* **isValidRemote(url, postData, errorMessage)** - send value to server with
-  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request. if isValid is false then the error message will be displayed, is error is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an error key then the default error message will be displayed
-  
-  
+* **isValidRemote(url, postData, errorMessage)** - send value to server with  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request, which expects a json response. If isValid is false then the error message will be displayed, if error message is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an 'error' key then the default error message will be displayed.
+      
 ## Other Methods
 * **resetAll()** - remove elements with .error on page, remove .invalid from invalid fields
 * **and(result)** - performs a logical and with result and state of the object and returns the result, usefull for tracking validation, see example below
@@ -69,10 +67,10 @@ Validation methods can be chained
                    .isRequired()
                    .isDecimal()
                    .inRange(2,4)
-                   .and(result); //the and method performs a logical and with result and current valid state and 
+                   .and(result); //the and method performs a logical and with result and validation state of field and 
                                  //returns the result 
 
-##Tracking validation state through out a function
+##Tracking validation state
 A common design pattern for performing validation is to have a validation method which returns true if validation was sucessfull and false if validation is unsucessfull. The **and()** can be usefull for this type of validation.
 
     function validate(){
