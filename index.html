@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Validation Helper by rizvn</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Validation Helper</h1>
+        <p>A jQuery based validation helper to help validate html input fields</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/rizvn/ValidationHelper" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/rizvn/ValidationHelper/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/rizvn/ValidationHelper/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h2>Using ValidationHelper</h2>
+
+<p>A small js utility to speed up web form validation. </p>
+
+<p><strong>Tested with: jquery 1.7.1, should work with 1.5+</strong></p>
+
+<h2><a href="https://raw.github.com/rizvn/ValidationHelper/master/res/ValidationHelper.js">Download</a></h2>
+
+<h2>Quick Start:</h2>
+
+<pre><code>var helper = new ValidationHelper($("#myElement"));
+helper.isRequired();            //check whether element is empty 
+var result = helper.isValid();  //get result of validation
+</code></pre>
+
+<p>The first argument specifies the input, the second value specifies the value
+that is currently in the input field. The second argument is the value on which all the validation is run.</p>
+
+<p>By default the following is placed after the element if it fails validation</p>
+
+<pre><code>&lt;label class="error"&gt;[message]&lt;/label&gt;
+</code></pre>
+
+<h2>Validation Methods</h2>
+
+<ul>
+<li>
+<strong>isRequired()</strong> - check is not empty</li>
+<li>
+<strong>isDigit()</strong> - check is an integer</li>
+<li>
+<strong>isDate()</strong> - check is date in format dd/mm/yyyy</li>
+<li>
+<strong>isRegExpMatch(reqEx, errorMessage)</strong> - check if value matches regular expresion</li>
+<li>
+<strong>isDecimal()</strong> - check is a decimal</li>
+<li>
+<strong>inRange(minVal, maxVall)</strong> - check value is in range</li>
+<li>
+<strong>isGreaterThan(val)</strong> - check input value greater than val</li>
+<li>
+<strong>isLessThan(val)</strong> - check input value is less than val</li>
+<li>
+<strong>isLongerThan(val)</strong> - check length of input is longer than val</li>
+<li>
+<strong>isShorterThan(val)</strong> - check length of input is shorter than val</li>
+<li>
+<strong>isLength(val)</strong> - check length of input is same as val</li>
+<li>
+<strong>isEqual(val)</strong> - check input matches val (string comparison)</li>
+<li>
+<strong>isNot(val)</strong> - check input does not match val (string comparison)</li>
+<li>
+<strong>isValidRemote(url, postData, errorMessage)</strong> - send value to server with  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request, which expects a json response. If isValid is false then the error message will be displayed, if error message is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an 'error' key then the default error message will be displayed.</li>
+</ul><h2>Other Methods</h2>
+
+<ul>
+<li>
+<strong>resetAll()</strong> - remove elements with .error on page, remove .invalid from invalid fields</li>
+<li>
+<strong>and(result)</strong> - performs a logical and with result and state of the object and returns the result, usefull for tracking validation, see example below</li>
+<li>
+<strong>isValid()</strong> - get value of valid (use after performing validation)</li>
+<li>
+<strong>isEnd()</strong> - does the same as isValid()</li>
+</ul><h2>Chaining example</h2>
+
+<p>Validation methods can be chained </p>
+
+<pre><code>var helper = new ValidationHelper($("#myElement"));
+
+helper
+  .isRequired()  //check is not empty
+  .isDecimal()   //then check it is a decimal
+  .inRange(2,4); //check is between 2 and 4.
+
+var result - helper.isValid(); //check the outcome of validating
+
+//--- or fewer steps ---
+
+var result = helper
+               .isRequired()
+               .isDecimal()
+               .inRange(2,4)
+               .end(); //the end method does the same as is valid, returns the outcome of the validation
+
+
+//-- or even fewer steps
+var result = new ValidationHelper($("#myElement"))
+               .isRequired()
+               .isDecimal()
+               .inRange(2,4)
+               .and(result); //the and method performs a logical and with result and validation state of field and 
+                             //returns the result 
+</code></pre>
+
+<h2>Remote validation example</h2>
+
+<pre><code>isValid = new ValidationHelper($('#field1'))
+               .isValidRemote(
+                 'mypage.htm', //url
+                 {
+                   param1:  'someParam', //request param
+                   param2:  'someParam', //request param
+                 }, 
+                 'Incorrect field' //error message (optional)
+               )
+               .and(isValid);
+</code></pre>
+
+<h2>Tracking validation state example</h2>
+
+<p>A common design pattern for performing validation is to have a validation method which returns true if validation was sucessfull and false if validation is unsucessfull. The <strong>and()</strong> can be usefull for this type of validation.</p>
+
+<pre><code>function validate(){
+   var isValid = true; //variable to hold validation status
+
+   isValid = new ValidationHelper($('#field1'))
+                 .isRequired()
+                 .isLength(9)
+                 .and(isValid); //the and method will get the validation state after the above methods have completed on this field then and it with the isValid arg passed in. The result will be stored in isValid var on the first line. 
+
+   isValid = new ValidationHelper($('#field2'))
+                 .isRequired()
+                 .and(isValid);
+
+   isValid = new ValidationHelper($('#field3'))
+                 .isRequired()
+                 .isDigit()
+                 .and(isValid);
+
+   isValid = new ValidationHelper($('#field4'))
+                 .isRequired()
+                 .isDigit()
+                 .and(isValid);
+
+   return isValid;  //return whether all validations passed
+}
+</code></pre>
+
+<h2>Configuration</h2>
+
+<p>There are optional methods that can be used to change validation behavior </p>
+
+<pre><code>var helper = new ValidationHelper($('#el'))
+
+//sets container in which to write error message
+helper.setTarget($('#errContainer'));
+
+
+//set whether to continue next validation if previous validation in 
+//chain fails
+helper.setContinueOnInvalid(true);
+
+
+//whether to validate on empty field
+helper.setValidateEmpty()
+</code></pre>
+
+<h2>Override default error messages</h2>
+
+<p>When field validation fails the onFail() method is called, the first argument to the method is the error string. You can override this method to provide your own 
+mechanism for handling errors. </p>
+
+<pre><code> var helper = new ValidationHelper($('#el'))
+
+ //overide existing on fail implementation 
+ helper.onFail = function(message){ alert(message)}
+
+ helper.isRequired() //will call above implementaion on fail
+</code></pre>
+
+<h2>MIT License</h2>
+
+<p>Copyright (C) 2012 Rizvan Fujasuddin </p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/rizvn">rizvn</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
