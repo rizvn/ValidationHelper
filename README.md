@@ -38,9 +38,9 @@ By default the following is placed after the element if it fails validation
   
 ## Other Methods
 * **resetAll()** - remove elements with .error on page, remove .invalid from invalid fields
-* **and(result)** - performs a logical and with result and state of the object and returns the result 
+* **and(result)** - performs a logical and with result and state of the object and returns the result, usefull for tracking validation, see example below
 * **isValid()** - get value of valid (use after performing validation)
-* **isEnd()** - does the same as isValid(
+* **isEnd()** - does the same as isValid()
 
 ## Chaining
 Validation methods can be chained 
@@ -71,6 +71,33 @@ Validation methods can be chained
                    .and(result); //the and method performs a logical and with result and current valid state and 
                                  //returns the result 
 
+##Tracking validation state through out a function
+A common design pattern for performing validation is to have a validation method which returns true if validation was sucessfull and false if validation is unsucessfull. The **and()** can be usefull for this type of validation.
+
+    function validate(){
+       var isValid = true; //variable to hold validation status
+       
+       isValid = new ValidationHelper($('#field1'))
+                     .isRequired()
+                     .isLength(9)
+                     .and(isValid); //the and method will get the validation state after the above methods have completed on this field then and it with the isValid arg passed in. The result will be stored in isValid var on the first line. 
+
+       isValid = new ValidationHelper($('#field2'))
+                     .isRequired()
+                     .and(isValid);
+
+       isValid = new ValidationHelper($('#field3'))
+                     .isRequired()
+                     .isDigit()
+                     .and(isValid);
+
+       isValid = new ValidationHelper($('#field4'))
+                     .isRequired()
+                     .isDigit()
+                     .and(isValid);
+       
+       return isValid;  //return whether all validations passed
+    }
 
 ## Configuration
 There are optional methods that can be used to change validation behavior 
