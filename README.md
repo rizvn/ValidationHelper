@@ -38,9 +38,9 @@ By default the following is placed after the element if it fails validation
   
 ## Other Methods
 * **resetAll()** - remove elements with .error on page, remove .invalid from invalid fields
+* **and(result)** - performs a logical and with result and state of the object and returns the result 
 * **isValid()** - get value of valid (use after performing validation)
 * **isEnd()** - does the same as isValid(
-* **and(result) - performs a logical and with result and state of the object and returns the result 
 
 ## Chaining
 Validation methods can be chained 
