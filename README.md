@@ -69,6 +69,18 @@ Validation methods can be chained
                    .inRange(2,4)
                    .and(result); //the and method performs a logical and with result and validation state of field and 
                                  //returns the result 
+## Remote Validation Example
+
+    isValid = new ValidationHelper($('#field1'))
+                   .isValidRemote(
+                     'mypage.htm', //url
+                     {
+                       param1:  'someParam', //request param
+                       param2:  'someParam', //request param
+                     }, 
+                     'Incorrect field' //error message (optional)
+                   )
+                   .and(isValid);
 
 ##Tracking validation state
 A common design pattern for performing validation is to have a validation method which returns true if validation was sucessfull and false if validation is unsucessfull. The **and()** can be usefull for this type of validation.
