@@ -41,7 +41,7 @@
       <section>
         <h2>Using ValidationHelper</h2>
 
-<p>A small js utility to speed up web form validation. </p>
+<p>A small js utility to speed up web form validation.</p>
 
 <p><strong>Tested with: jquery 1.7.1, should work with 1.5+</strong></p>
 
@@ -50,7 +50,7 @@
 <h2>Quick Start:</h2>
 
 <pre><code>var helper = new ValidationHelper($("#myElement"));
-helper.isRequired();            //check whether element is empty 
+helper.isRequired();            //check whether element is empty
 var result = helper.isValid();  //get result of validation
 </code></pre>
 
@@ -64,35 +64,38 @@ that is currently in the input field. The second argument is the value on which 
 
 <h2>Validation Methods</h2>
 
+<p>For all validation msg is the last argument, this arg is optional and is used
+to override default error message</p>
+
 <ul>
 <li>
-<strong>isRequired()</strong> - check is not empty</li>
+<strong>isRequired([msg])</strong> - check is not empty</li>
 <li>
-<strong>isDigit()</strong> - check is an integer</li>
+<strong>isDigit([msg])</strong> - check is an integer</li>
 <li>
-<strong>isDate()</strong> - check is date in format dd/mm/yyyy</li>
+<strong>isDate([msg])</strong> - check is date in format dd/mm/yyyy</li>
 <li>
-<strong>isRegExpMatch(reqEx, errorMessage)</strong> - check if value matches regular expresion</li>
+<strong>isRegExpMatch(reqEx, [msg])</strong> - check if value matches regular expresion</li>
 <li>
-<strong>isDecimal()</strong> - check is a decimal</li>
+<strong>isDecimal([msg])</strong> - check is a decimal</li>
 <li>
-<strong>inRange(minVal, maxVall)</strong> - check value is in range</li>
+<strong>inRange(minVal, maxVal, [msg])</strong> - check value is in range</li>
 <li>
-<strong>isGreaterThan(val)</strong> - check input value greater than val</li>
+<strong>isGreaterThan(val, [msg])</strong> - check input value greater than val</li>
 <li>
-<strong>isLessThan(val)</strong> - check input value is less than val</li>
+<strong>isLessThan(val, [msg])</strong> - check input value is less than val</li>
 <li>
-<strong>isLongerThan(val)</strong> - check length of input is longer than val</li>
+<strong>isLongerThan(val, [msg])</strong> - check length of input is longer than val</li>
 <li>
-<strong>isShorterThan(val)</strong> - check length of input is shorter than val</li>
+<strong>isShorterThan(val, [msg])</strong> - check length of input is shorter than val</li>
 <li>
-<strong>isLength(val)</strong> - check length of input is same as val</li>
+<strong>isLength(val, [msg])</strong> - check length of input is same as val</li>
 <li>
-<strong>isEqual(val)</strong> - check input matches val (string comparison)</li>
+<strong>isEqual(val, [msg])</strong> - check input matches val (string comparison)</li>
 <li>
-<strong>isNot(val)</strong> - check input does not match val (string comparison)</li>
+<strong>isNot(val, [msg])</strong> - check input does not match val (string comparison)</li>
 <li>
-<strong>isValidRemote(url, postData, errorMessage)</strong> - send value to server with  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request, which expects a json response. If isValid is false then the error message will be displayed, if error message is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an 'error' key then the default error message will be displayed.</li>
+<strong>isValidRemote(url, postData, [msg])</strong> - send value to server with  postData, will wait for server to respond with {isValid : [true or false]} to determine if validation successfull on server. This is a get request, which expects a json response. If isValid is false then the error message will be displayed, if error message is not passed as the third argument, it will look for an error property in the json response from the server, if that also does not have an 'error' key then the default error message will be displayed.</li>
 </ul><h2>Other Methods</h2>
 
 <ul>
@@ -106,7 +109,7 @@ that is currently in the input field. The second argument is the value on which 
 <strong>isEnd()</strong> - does the same as isValid()</li>
 </ul><h2>Chaining example</h2>
 
-<p>Validation methods can be chained </p>
+<p>Validation methods can be chained</p>
 
 <pre><code>var helper = new ValidationHelper($("#myElement"));
 
@@ -131,8 +134,8 @@ var result = new ValidationHelper($("#myElement"))
                .isRequired()
                .isDecimal()
                .inRange(2,4)
-               .and(result); //the and method performs a logical and with result and validation state of field and 
-                             //returns the result 
+               .and(result); //the and method performs a logical and with result and validation state of field and
+                             //returns the result
 </code></pre>
 
 <h2>Remote validation example</h2>
@@ -143,7 +146,7 @@ var result = new ValidationHelper($("#myElement"))
                  {
                    param1:  'someParam', //request param
                    param2:  'someParam', //request param
-                 }, 
+                 },
                  'Incorrect field' //error message (optional)
                )
                .and(isValid);
@@ -159,7 +162,7 @@ var result = new ValidationHelper($("#myElement"))
    isValid = new ValidationHelper($('#field1'))
                  .isRequired()
                  .isLength(9)
-                 .and(isValid); //the and method will get the validation state after the above methods have completed on this field then and it with the isValid arg passed in. The result will be stored in isValid var on the first line. 
+                 .and(isValid); //the and method will get the validation state after the above methods have completed on this field then and it with the isValid arg passed in. The result will be stored in isValid var on the first line.
 
    isValid = new ValidationHelper($('#field2'))
                  .isRequired()
@@ -181,7 +184,7 @@ var result = new ValidationHelper($("#myElement"))
 
 <h2>Configuration</h2>
 
-<p>There are optional methods that can be used to change validation behavior </p>
+<p>There are optional methods that can be used to change validation behavior</p>
 
 <pre><code>var helper = new ValidationHelper($('#el'))
 
@@ -189,7 +192,7 @@ var result = new ValidationHelper($("#myElement"))
 helper.setTarget($('#errContainer'));
 
 
-//set whether to continue next validation if previous validation in 
+//set whether to continue next validation if previous validation in
 //chain fails
 helper.setContinueOnInvalid(true);
 
@@ -200,12 +203,12 @@ helper.setValidateEmpty()
 
 <h2>Override default error messages</h2>
 
-<p>When field validation fails the onFail() method is called, the first argument to the method is the error string. You can override this method to provide your own 
-mechanism for handling errors. </p>
+<p>When field validation fails the onFail() method is called, the first argument to the method is the error string. You can override this method to provide your own
+mechanism for handling errors.</p>
 
 <pre><code> var helper = new ValidationHelper($('#el'))
 
- //overide existing on fail implementation 
+ //overide existing on fail implementation
  helper.onFail = function(message){ alert(message)}
 
  helper.isRequired() //will call above implementaion on fail
@@ -213,7 +216,7 @@ mechanism for handling errors. </p>
 
 <h2>MIT License</h2>
 
-<p>Copyright (C) 2012 Rizvan Fujasuddin </p>
+<p>Copyright (C) 2012 Rizvan Fujasuddin</p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
@@ -226,7 +229,7 @@ mechanism for handling errors. </p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
