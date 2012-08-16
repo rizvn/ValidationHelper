@@ -1,6 +1,6 @@
 /**
  * Validation Helper
- * Version 0.3
+ * Version 0.4
  *
  * author Riz
  */
@@ -100,102 +100,6 @@ ValidationHelper.prototype.onFail = function(aMessage) {
 //Logically And result with another boolean to track validation
 ValidationHelper.prototype.and = function(aBoolean){
   return aBoolean && this.mIsValid;
-},
-
-/*----------- Start of validation methods ----------------------*/
-ValidationHelper.prototype.isRequired = function() {
-  var old = this.mConf.validateEmpty;
-  this.mConf.validateEmpty = true;
-  if(this.preCheck()){
-    if (this.mValue == "") {
-      this.mIsValid = false;
-      this.onFail("Required");
-    }
-  }
-  this.mConf.validateEmpty = old;
-  return this;
-};
-
-ValidationHelper.prototype.isDigit = function() {
-  if(this.preCheck()){
-    var re = /^\d*$/;
-    if (!re.test(this.mValue)) {
-      this.mIsValid = false;
-      this.onFail("Must be an integer.");
-    }
-  }
-  return this;
-};
-
-ValidationHelper.prototype.isDate = function() {
-  if(this.preCheck()){
-    var re = /^\d{2}\/\d{2}\/\d{4}$/;
-    if (!re.test(this.mValue)) {
-      this.mIsValid = false;
-      this.onFail("Invalid date.");
-    }
-  }
-  return this;
-};
-
-ValidationHelper.prototype.isDecimal = function() {
-  if(this.preCheck()){
-    var re = /^\d*.\d*$/;
-    if (!re.test(this.mValue)) {
-      this.mIsValid = false;
-      this.onFail("Must be an integer.");
-    }
-  }
-  return this;
-};
-
-
-ValidationHelper.prototype.inRange = function(aMin, aMax) {
-  if(this.preCheck()){
-    var value = parseFloat(this.mValue);
-    var min = parseFloat(aMin);
-    var max = parseFloat(aMax);
-    if ((value < min) || (value > max)) {
-      this.mIsValid = false;
-      this.onFail("Value is not between " + min + " and " + max);
-    }
-  }
-  return this;
-};
-
-
-ValidationHelper.prototype.isGreaterThan = function(aVal) {
-  if(this.preCheck()){
-    var value = parseFloat(this.mValue);
-    var aVal = parseFloat(aVal);
-    if ( value < aVal) {
-      this.mIsValid = false;
-      this.onFail("Value is less than " + aVal);
-    }
-  }
-  return this;
-};
-
-ValidationHelper.prototype.isLessThan = function(aVal) {
-  if(this.preCheck()){
-    var value = parseFloat(this.mValue);
-    var aVal = parseFloat(aVal);
-    if ( value > aVal) {
-      this.mIsValid = false;
-      this.onFail("Value is greater than " + aVal);
-    }
-  }
-  return this;
-};
-
-ValidationHelper.prototype.isNot = function(aVal) {
-  if(this.preCheck()){
-    if ( this.mValue === aVal) {
-      this.mIsValid = false;
-      this.onFail("Value is the same " + aVal);
-    }
-  }
-  return this;
 };
 
 
@@ -212,7 +116,106 @@ ValidationHelper.prototype.preCheck = function(){
   };
 
   return _continue;
-}
+};
+
+/*----------- Start of validation methods ----------------------*/
+ValidationHelper.prototype.isRequired = function(aMsg) {
+  var old = this.mConf.validateEmpty;
+  this.mConf.validateEmpty = true;
+  if(this.preCheck()){
+    if (this.mValue == "") {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Required");
+    }
+  }
+  this.mConf.validateEmpty = old;
+  return this;
+};
+
+ValidationHelper.prototype.isDigit = function(aMsg) {
+  if(this.preCheck()){
+    var re = /^\d*$/;
+    if (!re.test(this.mValue)) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Must be an integer.");
+    }
+  }
+  return this;
+};
+
+ValidationHelper.prototype.isDate = function(aMsg) {
+  if(this.preCheck()){
+    var re = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!re.test(this.mValue)) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Invalid date.");
+    }
+  }
+  return this;
+};
+
+ValidationHelper.prototype.isDecimal = function(aMsg) {
+  if(this.preCheck()){
+    var re = /^\d*.\d*$/;
+    if (!re.test(this.mValue)) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Must be an integer.");
+    }
+  }
+  return this;
+};
+
+
+ValidationHelper.prototype.inRange = function(aMin, aMax, aMsg) {
+  if(this.preCheck()){
+    var value = parseFloat(this.mValue);
+    var min = parseFloat(aMin);
+    var max = parseFloat(aMax);
+    if ((value < min) || (value > max)) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Value is not between " + min + " and " + max);
+    }
+  }
+  return this;
+};
+
+
+ValidationHelper.prototype.isGreaterThan = function(aVal, aMsg) {
+  if(this.preCheck()){
+    var value = parseFloat(this.mValue);
+    var aVal = parseFloat(aVal);
+    if ( value < aVal) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Value is less than " + aVal);
+    }
+  }
+  return this;
+};
+
+ValidationHelper.prototype.isLessThan = function(aVal, aMsg) {
+  if(this.preCheck()){
+    var value = parseFloat(this.mValue);
+    var aVal = parseFloat(aVal);
+    if ( value > aVal) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Value is greater than " + aVal);
+    }
+  }
+  return this;
+};
+
+ValidationHelper.prototype.isNot = function(aVal, aMsg) {
+  if(this.preCheck()){
+    if ( this.mValue === aVal) {
+      this.mIsValid = false;
+      this.onFail(aMsg || "Value is the same " + aVal);
+    }
+  }
+  return this;
+};
+
+
+
 
 
 ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
@@ -266,32 +269,32 @@ ValidationHelper.prototype.isValidRemote = function(aUrl, aData, aMsg){
   return this;
 }
 
-ValidationHelper.prototype.isLongerThan = function(aVal) {
+ValidationHelper.prototype.isLongerThan = function(aVal, aMsg) {
   if(this.preCheck()){
     if ( this.mValue.length < aVal) {
       this.mIsValid = false;
-      this.onFail("Must be  " + aVal + " characters");
+      this.onFail(aMsg || "Must be  " + aVal + " characters");
     }
   }
   return this;
 };
 
-ValidationHelper.prototype.isShorterThan = function(aVal) {
+ValidationHelper.prototype.isShorterThan = function(aVal, aMsg) {
   if(this.preCheck()){
     if ( this.mValue.length > aVal) {
       this.mIsValid = false;
-      this.onFail("Must be  less than " + aVal + " characters");
+      this.onFail(aMsg || "Must be  less than " + aVal + " characters");
     }
   }
   return this;
 };
 
 
-ValidationHelper.prototype.isLength = function(aVal) {
+ValidationHelper.prototype.isLength = function(aVal, aMsg) {
   if(this.preCheck()){
     if ( this.mValue.length != aVal) {
       this.mIsValid = false;
-      this.onFail("Length is not" + aVal );
+      this.onFail(aMsg || "Length is not" + aVal );
     }
   }
   return this;
